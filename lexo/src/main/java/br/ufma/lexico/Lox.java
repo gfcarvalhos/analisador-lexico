@@ -1,6 +1,8 @@
 package br.ufma.lexico;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -21,11 +23,19 @@ public class Lox {
         run(new String(bytes, Charset.defaultCharset()));
     }
 
-    public static void run(String e){
-        System.out.println("run function");
+    public static void runPrompt() throws IOException{
+        InputStreamReader input = new InputStreamReader(System.in);
+        BufferedReader reader = new BufferedReader(input);
+
+        for (;;){
+            System.out.println("> ");
+            String line = reader.readLine();
+            if (line == null) break;
+            run(line);
+        }
     }
 
-    public static void runPrompt(){
-        System.out.println("runPrompt function");
+    public static void run(String e){
+        System.out.println("run function");
     }
 }
