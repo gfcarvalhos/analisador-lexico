@@ -50,3 +50,4 @@ public class Scanner {
         return source.charAt(current - 1);
     }
 }
+//Conclusão do Analisador Léxico – Interpretador Lox
