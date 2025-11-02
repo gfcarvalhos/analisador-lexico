@@ -30,21 +30,16 @@ public class Scanner {
         return tokens;
     }
 
-    // Método isAtEnd() conforme seção 4.4
     private boolean isAtEnd() {
         return current >= source.length();
     }
 
-    // Método scanToken() - A SER IMPLEMENTADO NAS PRÓXIMAS SEÇÕES
+    
     private void scanToken() {
-        // Apenas avança um caractere por enquanto
-        // A lógica real será implementada nas próximas seções
-        advance();
-        // TODO: Implementar a lógica completa de scanning
-        // quando avançarmos no livro
+       
     }
 
-    // Método advance() - necessário para scanToken()
+   
     private char advance() {
         current++;
         return source.charAt(current - 1);
