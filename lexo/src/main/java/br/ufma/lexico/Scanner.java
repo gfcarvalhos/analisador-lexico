@@ -204,29 +204,6 @@ public class Scanner {
     }
 }
 
-/// ***********TESTES********* ////
-//  Teste : var a = 10;
-//***** SAÍDA: *******/
-// VAR var null
-//IDENTIFIER a null
-//EQUAL = null
-//NUMBER 10 10.0
-//SEMICOLON ; null
-//EOF  null
-
-// **** Teste de tokens simples ****
-//( ) { } , . - + ; * / 
-//LEFT_BRACE { null 
-//RIGHT_BRACE } null
-//COMMA , null
-//DOT . null
-//MINUS - null
-//PLUS + null
-//SEMICOLON ; null
-//STAR * null
-//SLASH / null
-//EOF  null
-
 
 
 
