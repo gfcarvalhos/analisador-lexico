@@ -1,4 +1,4 @@
-package br.ufma.lexico;
+package br.ufma.jlox;
 
 public class AstPrinter implements Expr.Visitor<String> {
     String print(Expr expr) {

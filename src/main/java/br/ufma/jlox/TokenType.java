@@ -1,4 +1,4 @@
-package br.ufma.lexico;
+package br.ufma.jlox;
 
 public enum TokenType {
     // Single-character tokens

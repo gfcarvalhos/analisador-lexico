@@ -1,4 +1,4 @@
-package br.ufma.lexico;
+package br.ufma.jlox;
 
 //import java.util.List;
 

@@ -1,4 +1,4 @@
-package br.ufma.lexico;
+package br.ufma.jlox;
 
 public class Token {
     final TokenType type;

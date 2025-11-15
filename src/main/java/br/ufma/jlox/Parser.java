@@ -1,8 +1,8 @@
-package br.ufma.lexico;
+package br.ufma.jlox;
 
 import java.util.List;
 
-import static br.ufma.lexico.TokenType.*;
+import static br.ufma.jlox.TokenType.*;
 
 class Parser {
     private final List<Token> tokens;

@@ -1,11 +1,11 @@
-package br.ufma.lexico;
+package br.ufma.jlox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static br.ufma.lexico.TokenType.*;
+import static br.ufma.jlox.TokenType.*;
 
 public class Scanner {
     private final String source;
