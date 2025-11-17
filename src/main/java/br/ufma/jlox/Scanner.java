@@ -203,7 +203,3 @@ public class Scanner {
         tokens.add(new Token(type, text, literal, line));
     }
 }
-
-
-
-
