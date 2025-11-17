@@ -94,6 +94,7 @@ class Interpreter implements Expr.Visitor<Object>,
         Object right = evaluate(expr.right);
 
         switch (expr.operator.type) {
+            // Operadores de comparação
             case GREATER:
                 checkNumberOperands(expr.operator, left, right);
                 return (double)left > (double)right;
@@ -106,6 +107,8 @@ class Interpreter implements Expr.Visitor<Object>,
             case LESS_EQUAL:
                 checkNumberOperands(expr.operator, left, right);
                 return (double)left <= (double)right;
+
+            // Operadores aritméticos
             case MINUS:
                 checkNumberOperands(expr.operator, left, right);
                 return (double)left - (double)right;
@@ -123,11 +126,17 @@ class Interpreter implements Expr.Visitor<Object>,
             case STAR:
                 checkNumberOperands(expr.operator, left, right);
                 return (double)left * (double)right;
-            case BANG_EQUAL: return !isEqual(left, right);
-            case EQUAL_EQUAL: return isEqual(left, right);
-        }
 
-        return null;
+            // Operadores de igualdade
+            case BANG_EQUAL: 
+                return !isEqual(left, right);
+            case EQUAL_EQUAL: 
+                return isEqual(left, right);
+
+            // Caso default para tokens que não são operadores binários válidos
+            default:
+                throw new RuntimeError(expr.operator, "Invalid binary operator.");
+        }
     }
 
     @Override
@@ -163,8 +172,9 @@ class Interpreter implements Expr.Visitor<Object>,
             case MINUS:
                 checkNumberOperand(expr.operator, right);
                 return -(double)right;
+            default:
+                throw new RuntimeError(expr.operator, "Invalid unary operator.");
         }
-        return null;
     }
 
     @Override

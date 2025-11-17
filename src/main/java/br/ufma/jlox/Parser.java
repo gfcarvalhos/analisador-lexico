@@ -327,6 +327,11 @@ class Parser {
                 case PRINT:
                 case RETURN:
                     return;
+                    
+                // Para todos os outros tokens, continue avançando (default behavior)
+                default:
+                    // Do nothing, just continue
+                    break;
             }
 
             advance();
