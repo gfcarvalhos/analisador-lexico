@@ -6,6 +6,11 @@ public class AstPrinter implements Expr.Visitor<String> {
     }
 
     @Override
+    public String visitAssignExpr(Expr.Assign expr) {
+        return parenthesize("= " + expr.name.lexeme, expr.value);
+    }
+
+    @Override
     public String visitBinaryExpr(Expr.Binary expr) {
         return parenthesize(expr.operator.lexeme, expr.left, expr.right);
     }
@@ -22,8 +27,18 @@ public class AstPrinter implements Expr.Visitor<String> {
     }
 
     @Override
+    public String visitLogicalExpr(Expr.Logical expr) {
+        return parenthesize(expr.operator.lexeme, expr.left, expr.right);
+    }
+
+    @Override
     public String visitUnaryExpr(Expr.Unary expr) {
         return parenthesize(expr.operator.lexeme, expr.right);
+    }
+
+    @Override
+    public String visitVariableExpr(Expr.Variable expr) {
+        return expr.name.lexeme;
     }
 
     private String parenthesize(String name, Expr... exprs) {
@@ -40,6 +55,7 @@ public class AstPrinter implements Expr.Visitor<String> {
     }
 
     public static void main(String[] args) {
+        // Teste com uma expressão mais complexa que inclui variáveis
         Expr expression = new Expr.Binary(
                 new Expr.Unary(
                         new Token(TokenType.MINUS, "-", null, 1),
@@ -49,5 +65,26 @@ public class AstPrinter implements Expr.Visitor<String> {
                         new Expr.Literal(45.67)));
 
         System.out.println(new AstPrinter().print(expression));
+
+        // Teste com uma expressão que usa variáveis
+        Expr variableExpr = new Expr.Assign(
+            new Token(TokenType.IDENTIFIER, "x", null, 1),
+            new Expr.Binary(
+                new Expr.Variable(new Token(TokenType.IDENTIFIER, "a", null, 1)),
+                new Token(TokenType.PLUS, "+", null, 1),
+                new Expr.Literal(10)
+            )
+        );
+
+        System.out.println(new AstPrinter().print(variableExpr));
+
+        // Teste com operadores lógicos
+        Expr logicalExpr = new Expr.Logical(
+            new Expr.Variable(new Token(TokenType.IDENTIFIER, "flag", null, 1)),
+            new Token(TokenType.AND, "and", null, 1),
+            new Expr.Literal(true)
+        );
+
+        System.out.println(new AstPrinter().print(logicalExpr));
     }
 }
