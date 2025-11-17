@@ -13,10 +13,19 @@ public class GenerateAst {
         }
         String outputDir = args[0];
         defineAst(outputDir, "Expr", Arrays.asList(
-                "Binary   : Expr left, Token operator, Expr right",
-                "Grouping : Expr expression",
-                "Literal  : Object value",
-                "Unary    : Token operator, Expr right"
+            "Assign   : Token name, Expr value",
+            "Binary   : Expr left, Token operator, Expr right",
+            "Grouping : Expr expression",
+            "Literal  : Object value",
+            "Unary    : Token operator, Expr right",
+            "Variable : Token name"
+        ));
+        
+        defineAst(outputDir, "Stmt", Arrays.asList(
+            "Block      : List<Stmt> statements",
+            "Expression : Expr expression",
+            "Print      : Expr expression",
+            "Var        : Token name, Expr initializer"
         ));
     }
 
@@ -26,9 +35,9 @@ public class GenerateAst {
         String path = outputDir + "/" + baseName + ".java";
         PrintWriter writer = new PrintWriter(path, "UTF-8");
 
-        writer.println("package br.ufma.lexico;");
+        writer.println("package br.ufma.jlox;");
         writer.println();
-        writer.println("import java.utils.List;");
+        writer.println("import java.util.List;");
         writer.println();
         writer.println("abstract class " + baseName + " {");
 
@@ -64,23 +73,25 @@ public class GenerateAst {
     private static void defineType (
             PrintWriter writer, String baseName, String className, String fieldList
     ) {
-        writer.println(" static class " + className + " extends " + baseName + " {");
+        writer.println("  static class " + className + " extends " + baseName + " {");
+        
+        // Constructor
         writer.println("    " + className + "(" + fieldList + ") {");
         String[] fields = fieldList.split(", ");
         for (String field : fields){
             String name = field.split(" ")[1];
             writer.println("      this." + name + " = " + name + ";");
         }
-
         writer.println("    }");
 
+        // Visitor pattern
         writer.println();
         writer.println("    @Override");
         writer.println("    <R> R accept(Visitor<R> visitor) {");
-        writer.println("      return visitor.visit" +
-                className + baseName + "(this);");
+        writer.println("      return visitor.visit" + className + baseName + "(this);");
         writer.println("    }");
 
+        // Fields
         writer.println();
         for (String field : fields){
             writer.println("    final " + field + ";");
