@@ -5,8 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class Interpreter implements Expr.Visitor<Object>,
-                             Stmt.Visitor<Void> {
+class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     final Environment globals = new Environment();
     private Environment environment = globals;
     private final Map<Expr, Integer> locals = new HashMap<>();
@@ -207,7 +206,7 @@ class Interpreter implements Expr.Visitor<Object>,
 
         List<Object> arguments = new ArrayList<>();
         for (Expr argument : expr.arguments) {
-            argument.add(evaluate(argument));
+            arguments.add(evaluate(argument));
         }
 
         if(!(callee instanceof LoxCallable)) {
@@ -342,6 +341,26 @@ class Interpreter implements Expr.Visitor<Object>,
         }
 
         return object.toString();
+    }
+
+    @Override
+    public Object visitSuperExpr(Expr.Super expr) {
+        Integer distance = locals.get(expr);
+
+        // Obtém o super-classe do ambiente
+        LoxClass superclass = (LoxClass)environment.getAt(distance, "super");
+
+        // Obtém o 'this' do mesmo ambiente
+        LoxInstance object = (LoxInstance)environment.getAt(distance - 1, "this");
+
+        LoxFunction method = superclass.findMethod(expr.method.lexeme);
+
+        if (method == null) {
+            throw new RuntimeError(expr.method,
+                    "Undefined property '" + expr.method.lexeme + "'.");
+        }
+
+        return method.bind(object);
     }
 }
 //Statements and State, Control Flow
